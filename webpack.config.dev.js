@@ -17,25 +17,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ejs$/,
-        exclude: /node_modules/,
-        loader: 'ejs-loader',
-      },
-      {
-        test: /\.html$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              removeComments: true,
-              collapseWhitespace: false,
-              attrs: ['img:src'],
-            },
-          },
-        ],
-      },
-      {
         test: /\.(js)$/,
         exclude: /node_modules/,
         use: [
@@ -52,6 +33,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               importLoaders: 2,
+              url: false,
             },
           },
           {
@@ -68,6 +50,25 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json-loader',
+      },
+      {
+        test: /\.html$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              removeComments: true,
+              collapseWhitespace: false,
+              attrs: ['img:src'],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.ejs$/,
+        exclude: /node_modules/,
+        loader: 'ejs-loader',
       },
       // Webpack detects html files from HtmlWebpackPlugin.
       {
