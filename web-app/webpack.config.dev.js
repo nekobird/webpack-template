@@ -1,53 +1,16 @@
 const path = require('path');
-const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const outputPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
   mode: 'development',
-  entry: path.resolve(__dirname, 'source/index.js'),
+  entry: path.resolve(__dirname, 'source/index.tsx'),
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: outputPath,
     filename: '[name].[hash].js',
   },
   module: {
     rules: [
-      {
-        test: /\.(js)$/,
-        exclude: /node_modules/,
-        use: [
-          'babel-loader',
-          'eslint-loader',
-        ],
-      },
-      {
-        test: /\.(c|sa|sc)ss$/,
-        exclude: /node_modules/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              url: false,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: 'postcss.config.js',
-              },
-            },
-          },
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
       {
         test: /\.html$/,
         exclude: /node_modules/,
@@ -57,58 +20,66 @@ module.exports = {
             options: {
               removeComments: true,
               collapseWhitespace: false,
-              attrs: ['img:src'],
+              attrs: [
+                'img:src',
+                'link:href',
+              ],
             },
           },
         ],
       },
       {
-        test: /\.ejs$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
-        loader: 'ejs-loader',
+        loader: 'babel-loader',
       },
-      // Webpack detects html files from HtmlWebpackPlugin.
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        loader: 'json-loader',
+      },
       {
         test: /\.(png|svg|jpg|gif|webp)$/,
         exclude: /node_modules/,
         loader: 'file-loader',
         options: {
-          root: path.resolve(__dirname, 'assets'),
           name: '[name].[hash].[ext]',
         },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
+        exclude: /node_modules/,
         use: [
           'file-loader',
         ],
       },
     ],
   },
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname, 'source'),
+    },
+    extensions: [
+      '.js', '.jsx', '.ts', '.tsx', '.json'
+    ],
+  },
   devtool: 'source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
+    contentBase: outputPath,
     hot: true,
     open: true,
     port: 8080,
+    quiet: true,
+    historyApiFallback: {
+      index: 'index.html'
+    },
   },
   plugins: [
-    new CleanWebpackPlugin(),
-    ...htmlFiles.map(fileName => {
-      return new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, `source/${fileName}`),
-        filename: fileName.replace(/(ejs)/, 'html'),
-        hash: true,
-        minify: true,
-        cache: true,
-        removeScriptTypeAttributes: true,
-      });
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'source/index.html'),
+      filename: 'index.html',
+      cache: true,
+      hash: true,
     }),
   ],
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin(),
-    ],
-  },
 }
