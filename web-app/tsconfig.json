@@ -22,10 +22,10 @@
     "strict": true,
     "target": "esnext",
     "paths": {
-      "~/*": ["*"],
-    },
+      "~/*": ["*"]
+    }
   },
   "exclude": [
     "node_modules"
-  ],
+  ]
 }

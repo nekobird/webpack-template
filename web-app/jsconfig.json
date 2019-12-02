@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./source",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "paths": {
+      "~/*": ["*"]
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
