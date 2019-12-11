@@ -70,9 +70,7 @@ module.exports = {
     open: true,
     port: 8080,
     quiet: true,
-    historyApiFallback: {
-      index: 'index.html'
-    },
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
