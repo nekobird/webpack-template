@@ -4,11 +4,14 @@ const outputPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
   mode: 'development',
+
   entry: path.resolve(__dirname, 'source/index.tsx'),
+
   output: {
     path: outputPath,
     filename: '[name].[hash].js',
   },
+
   module: {
     rules: [
       {
@@ -55,6 +58,7 @@ module.exports = {
       },
     ],
   },
+
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'source'),
@@ -63,7 +67,9 @@ module.exports = {
       '.js', '.jsx', '.ts', '.tsx', '.json'
     ],
   },
+
   devtool: 'source-map',
+
   devServer: {
     contentBase: outputPath,
     hot: true,
@@ -72,6 +78,7 @@ module.exports = {
     quiet: true,
     historyApiFallback: true,
   },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'source/index.html'),
