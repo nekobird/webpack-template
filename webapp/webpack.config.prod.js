@@ -7,11 +7,14 @@ const outputPath = path.resolve(__dirname, 'build');
 
 module.exports = {
   mode: 'production',
+
   entry: path.resolve(__dirname, 'source/index.tsx'),
+
   output: {
     path: outputPath,
     filename: '[name].[hash].js',
   },
+
   module: {
     rules: [
       {
@@ -58,6 +61,7 @@ module.exports = {
       },
     ],
   },
+
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'source'),
@@ -66,7 +70,9 @@ module.exports = {
       '.js', '.jsx', '.ts', '.tsx', '.json'
     ],
   },
+
   devtool: 'source-map',
+
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -84,6 +90,7 @@ module.exports = {
       hash: true,
     }),
   ],
+
   optimization: {
     minimize: true,
     minimizer: [
